@@ -22,9 +22,12 @@ const handleSubmit = async (event) => {
             throw new Error(`FormSubmit request failed with status ${response.status}`);
         }
 
-        const result = await response.json();
-        if (result.success !== true && result.success !== 'true') {
-            throw new Error(result.message || 'FormSubmit could not send the form');
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+            const result = await response.json();
+            if (result.success === false || result.success === 'false') {
+                throw new Error(result.message || 'FormSubmit could not send the form');
+            }
         }
     } catch (e) {
         try {
@@ -44,7 +47,7 @@ const handleSubmit = async (event) => {
         }
     }
 
-    location.href = "thanks.html";
+    window.location.assign(new URL('thanks.html', window.location.href).href);
 }	
 
 form.addEventListener('submit', handleSubmit);
