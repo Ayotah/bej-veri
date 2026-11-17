@@ -1,15 +1,18 @@
 
 
 const form = document.getElementById('sendmail');
-console.log("form", form)
 
-																
 const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!form) {
+        return;
+    }
+
     const data = new FormData(form);
-    
+
     try {
-        const response = await fetch("https://formsubmit.co/ajax/solangemarceline86@gmail.com", {
+        const response = await fetch('https://formsubmit.co/ajax/solangemarceline86@gmail.com', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +34,7 @@ const handleSubmit = async (event) => {
         }
     } catch (e) {
         try {
-            const response = await fetch("https://formbold.com/s/3Ngmg", {
+            const response = await fetch('https://formbold.com/s/3Ngmg', {
                 method: 'POST',
                 body: data
             });
@@ -48,10 +51,13 @@ const handleSubmit = async (event) => {
     }
 
     window.location.assign(new URL('thanks.html', window.location.href).href);
-}	
+};
 
-form.addEventListener('submit', handleSubmit);
-
+if (form) {
+    form.addEventListener('submit', handleSubmit);
+} else {
+    console.warn('No #sendmail form found on this page.');
+}
 
 
 
